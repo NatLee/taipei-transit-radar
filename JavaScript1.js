@@ -91,7 +91,7 @@ function callGoogleServer(classTran, type) {
         cost = temp["fare"]["currency"] + " " + temp["fare"]["text"];
 
 
-
+       
       var departure = new Date().toLocaleString().replace("GMT+8 ","").split(' ')[1];
        
       alert(new Date().toLocaleString().replace("GMT+8 ", ""));
