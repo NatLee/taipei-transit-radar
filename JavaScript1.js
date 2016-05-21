@@ -3,6 +3,9 @@ var _body = document.getElementsByTagName("body")[0];
 function init() {
   $("#change")[0].addEventListener("click", changeEvent);
   $("#search")[0].addEventListener("click", searchEvent);
+  createCombobox("#start");
+  createCombobox("#end");
+
   $("html, body").animate({
     scrollTop: 0
   }, 300);
@@ -10,7 +13,7 @@ function init() {
 
   $(document).ready(function () {
     $(window).scroll(function () {
-      if ($(this).scrollTop() > 200) {
+      if ($(this).scrollTop() > 100) {
         $('.scrollup').fadeIn();
       } else {
         $('.scrollup').fadeOut();
@@ -30,18 +33,78 @@ function init() {
 
 }
 
+function createCombobox(id) {
+  var optionJson;
+  $.getJSON("https://raw.githubusercontent.com/NatLee/2016IISI-HACKATHON/gh-pages/assets/MRTstationJson.json?token=AJtRlNYyG5h5y1dz_E3E2QxSm-nAlzZaks5XSegAwA%3D%3D", function (json) {
+    optionJson = json;
+    var select = $(id)[0];
+
+    var newOptions = [];
+    for (var i = 0; i < optionJson.length; i++) {
+      var line = json[i]["line"];
+      var lineHasCreate = false;
+
+
+      for (var j = 0; j < newOptions.length; j++) {
+        if (newOptions[j] == line) {
+          lineHasCreate = true;
+          break;
+        }
+      }
+
+      if (!lineHasCreate) {
+        var optgroup = document.createElement("optgroup");
+        optgroup.setAttribute("label", line);
+
+        var option = document.createElement("option");
+        option.setAttribute("value", optionJson[i]["name"]);
+        option.innerHTML = "捷運" + optionJson[i]["name"];
+
+        optgroup.appendChild(option);
+        select.appendChild(optgroup);
+        newOptions.push(line);
+      } else {
+        var temp  = $("optgroup", select);
+        for (var k = 0; k < temp.length; k++) {
+          if (temp[k].label == line) {
+            temp = temp[k];
+            var option = document.createElement("option");
+            option.setAttribute("value", optionJson[i]["name"]);
+            option.innerHTML = "捷運" + optionJson[i]["name"];
+            temp.appendChild(option);
+          }
+        }
+      }
+    }
+
+
+  });
+
+
+
+
+
+  //<select name="files" id="files">
+  //    <optgroup label="Scripts">
+  //      <option value="jquery">jQuery.js</option>
+  //      <option value="jqueryui">ui.jQuery.js</option>
+  //    </optgroup>
+  //    <optgroup label="Other files">
+  //      <option value="somefile">Some unknown file</option>
+  //      <option value="someotherfile">Some other file with a very long option text</option>
+  //    </optgroup>
+  //  </select>
+
+
+
+}
+
 function changeEvent(e) {
   var startValue = $("#start")[0].value;
   var endValue = $("#end")[0].value;
 
   $("#start")[0].value = endValue;
   $("#end")[0].value = startValue;
-
-
-
-
-  //$("#start")[0].value(end);
-  //$("#end")[0].value(start);
 }
 
 
@@ -131,7 +194,7 @@ function getJsonByView(mode) {
 
 
     temp[0]["size"] = $("#walk")[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "");
-    temp[1]["size"] = (bus_A[0] - bus_D[0])*60 + (bus_A[1] - bus_D[1]);
+    temp[1]["size"] = (bus_A[0] - bus_D[0]) * 60 + (bus_A[1] - bus_D[1]);
     temp[2]["size"] = (mrt_A[0] - mrt_D[0]) * 60 + (mrt_A[1] - mrt_D[1]);
   }
 
@@ -191,9 +254,9 @@ function createD3JS(js, type) {
 }
 
 function getColor() {
-  var r = Math.floor(Math.random() * 105)+150;
-  var g = Math.floor(Math.random() * 105)+150;
-  var b = Math.floor(Math.random() * 105)+150;
+  var r = Math.floor(Math.random() * 105) + 150;
+  var g = Math.floor(Math.random() * 105) + 150;
+  var b = Math.floor(Math.random() * 105) + 150;
   return rgbToHex(r, g, b);
 }
 
