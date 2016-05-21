@@ -21,6 +21,7 @@
   float: left;
   width: 75%;
   border-radius: 25px;
+  text-align: center;
 }
 
 .button {
@@ -38,6 +39,16 @@
 body {
 }
 
-
+.scrollup {
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 30px;
+  right: 50px;
+  display: none;
+  text-indent: -9999px;
+  background-image: url(images/icon.png);
+  background-size: 100% 100%;
+}
 
 /*1231231212312312123*/
