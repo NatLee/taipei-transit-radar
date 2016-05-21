@@ -307,8 +307,8 @@ function rgbToHex(r, g, b) {
   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 function callGoogleServer(classTran, type) {
-  var startValue = "台北" + $("#start")[0].value;
-  var endValue = "台北" + $("#end")[0].value;
+  var startValue = $("#start")[0].value + "站";
+  var endValue = $("#end")[0].value + "站";
 
   var directionsService = new google.maps.DirectionsService();
   var directionsRequest = {
