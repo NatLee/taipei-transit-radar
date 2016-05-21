@@ -211,9 +211,11 @@ function getJsonByView(mode) {
 
   var temp = js["children"][0]["children"][0]["children"];
   if (mode == "money") {
+    var bus_m = $("#bus")[0].innerHTML.split("<br>")[3].split("$")[1] * 1;
+    var mrt_m = $("#mrt")[0].innerHTML.split("<br>")[3].split("$")[1] * 1;
     temp[0]["size"] = 1;
-    temp[1]["size"] = $("#bus")[0].innerHTML.split("<br>")[3].split("$")[1];
-    temp[2]["size"] = $("#mrt")[0].innerHTML.split("<br>")[3].split("$")[1];
+    temp[1]["size"] = bus_m == 0 ? 1 : bus_m;
+    temp[2]["size"] = mrt_m == 0 ? 1 : mrt_m;
   }
   else if (mode == "distance")//距離
   {
