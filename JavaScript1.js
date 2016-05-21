@@ -99,7 +99,6 @@ function callGoogleServer(classTran, type) {
       else
         departure = departure[1];
 
-      //alert(new Date().toLocaleString());
       departure = getViewDate(departure);
       if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
         departure = temp["legs"][0]["departure_time"]["text"];
