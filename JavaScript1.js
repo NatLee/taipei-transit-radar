@@ -176,8 +176,7 @@ function searchEvent(e) {
   }, 1000);
 
 
-
-
+  $("#word")[0].innerHTML = "";
 }
 
 function getJsonByView(mode) {
