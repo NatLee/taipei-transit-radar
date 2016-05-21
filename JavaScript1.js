@@ -22,7 +22,9 @@ function changeEvent(e) {
 
 
 function searchEvent(e) {
-  $("#showValue")[0].innerHTML = "";
+  $("#walk")[0].innerHTML = "";
+  $("#bus")[0].innerHTML = "";
+  $("#mrt")[0].innerHTML = "";
 
   callGoogleServer("TRANSIT", "BUS");
   callGoogleServer("TRANSIT", "RAIL");
@@ -169,26 +171,32 @@ function callGoogleServer(classTran, type) {
       if (temp["legs"][0]["arrival_time"] && temp["legs"][0]["arrival_time"]["text"])
         arrived = temp["legs"][0]["arrival_time"]["text"];
 
-
-      //
       if (type == "走路") {
         var min = temp["legs"][0]["duration"]["value"] / 60;
         var num = new Number(dis / (min / 60) * 46.5)
 
-        $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
+        $("#walk")[0].innerHTML += "</br>大眾交通工具：" + type +
           "</br>搭乘車號：" + stepString +
           "</br>花費金額：" + cost +
           "</br>花費時間：" + temp["legs"][0]["duration"]["text"] +
           "</br>消耗卡路里：" + num.toFixed(2) + "大卡(60公斤計)" +
           "</br>距離總長：" + dis + " 公里</br>";
       }
-      else {
-        $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
+      else if (type == "公車") {
+        $("#bus")[0].innerHTML += "</br>大眾交通工具：" + type +
           "</br>搭乘車號：" + stepString +
           "</br>花費金額：" + cost +
           "</br>出發時間：" + departure +
           "</br>抵達時間：" + arrived +
           "</br>距離總長：" + dis + " 公里</br>";
+      }
+      else {
+        $("#mrt")[0].innerHTML += "</br>大眾交通工具：" + type +
+      "</br>搭乘車號：" + stepString +
+      "</br>花費金額：" + cost +
+      "</br>出發時間：" + departure +
+      "</br>抵達時間：" + arrived +
+      "</br>距離總長：" + dis + " 公里</br>";
       }
     }
     else
