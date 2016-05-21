@@ -14,6 +14,8 @@ function changeEvent(e) {
   $("#end")[0].value = startValue;
 
 
+
+
   //$("#start")[0].value(end);
   //$("#end")[0].value(start);
 }
@@ -21,18 +23,88 @@ function changeEvent(e) {
 
 function searchEvent(e) {
 
-  var startValue = $("#start")[0].value;
-  var endValue = $("#end")[0].value;
-  alert("起點:" + startValue + "終點:" + endValue);
-  var Json, success;
+  //http://ptx.transportdata.tw/MOTC/v1/Bus/EstimatedTimeOfArrival/Taipei?%24top=30&%24format=JSO
 
 
-  $.getJSON('http://ptx.transportdata.tw/MOTC/v1/Bus/EstimatedTimeOfArrival/Taipei?%24top=30&%24format=JSO', function (data) {
-    Json = data;
+  
+  callGoogleServer("BUS");
+  callGoogleServer("RAIL");
+  
 
-  });
+ 
+
+
+//  _json = [
+//{
+//  "type": "bus",
+//  "cost": temp_bus["fare"]["currency"] + " " + temp_bus["fare"]["text"],
+//  "departure_time": temp_bus["legs"][0]["departure_time"]["text"],
+//  "arrival_time": temp_bus["legs"][0]["arrival_time"]["text"]
+//}
+//  ];
+//  alert(JSON.stringify(_json));
+
 
 }
+
+function callGoogleServer(type) {
+  var startValue = $("#start")[0].value;
+  var endValue = $("#end")[0].value;
+
+  var directionsService = new google.maps.DirectionsService();
+  var directionsRequest = {
+    origin: startValue,
+    destination: endValue,
+    travelMode: google.maps.DirectionsTravelMode.TRANSIT,
+    transitOptions: {
+      modes: [google.maps.TransitMode[type]]
+    },
+    optimizeWaypoints: true,
+    unitSystem: google.maps.UnitSystem.METRIC
+  };
+
+  var json_bus, json_tram, temp_bus
+
+  directionsService.route(directionsRequest, function (response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      json_bus = response;
+      temp_bus = json_bus["routes"][0];
+      $("#showValue")[0].innerHTML += "</br></br>大眾交通工具：" + (type=="BUS" ? "公車":"捷運") +
+        "</br>花費金額：" + temp_bus["fare"]["currency"] + " " + temp_bus["fare"]["text"] +
+        "</br>出發時間：" + temp_bus["legs"][0]["departure_time"]["text"] +
+        "</br>抵達時間：" + temp_bus["legs"][0]["arrival_time"]["text"];
+    }
+    else
+      alert("Unable to retrieve your route");
+  });
+}
+
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, true);
+
+  } else if (typeof XDomainRequest != "undefined") {
+
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+
+  } else {
+
+    // Otherwise, CORS is not supported by the browser.
+    xhr = null;
+
+  }
+  return xhr;
+}
+
+
+
 
 function init_D3js() {
   var diameter = 960,
