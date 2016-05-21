@@ -28,10 +28,67 @@ function init() {
     });
 
   });
+}
 
+function radioChange(e) {
+  var imgDiv = document.getElementById("img");
+  var word = document.getElementById("word");
+  var src = "";
+  var str = "";
 
+  var walk = $("#walk")[0].innerHTML;
+  var bus = $("#bus")[0].innerHTML;
+  var mrt = $("#mrt")[0].innerHTML;
+
+  if (walk == "" || bus == "" || mrt == "")
+    str = "資料不正確，請查明資料";
+  else if (e.value == "money") {
+    src = "url(images/walking.png)";
+    str = walk;
+  } else if (e.value == "time") {
+
+    var walk_t = getSpendTime("#walk");
+    var bus_t = getSpendTime("#bus");
+    var mrt_t = getSpendTime("#mrt");
+
+    if (walk_t <= bus_t && walk_t <= mrt_t) {
+      str = walk;
+      src = "url(images/walking.png)";
+    }
+    else if (bus_t <= walk_t && bus_t <= mrt_t) {
+      str = bus;
+      src = "url(images/bus.png)";
+    }
+    else {
+      str = mrt;
+      src = "url(images/mrt.png)";
+    }
+  } else if (e.value == "distance") {
+
+    var walk_d = getDistance("#walk");
+    var bus_d = getDistance("#bus");
+    var mrt_d = getDistance("#mrt");
+
+    if (walk_d <= bus_d && walk_d <= mrt_d) {
+      str = walk;
+      src = "url(images/walking.png)";
+    }
+    else if (bus_d <= walk_d && bus_d <= mrt_d) {
+      str = bus;
+      src = "url(images/bus.png)";
+    }
+    else {
+      str = mrt;
+      src = "url(images/mrt.png)";
+    }
+  }
+
+  word.innerHTML = str;
+  imgDiv["style"]["backgroundImage"] = src;
+  imgDiv["style"]["backgroundSize"] = "100% 100%";
 
 }
+
 
 function createCombobox(id) {
   var optionJson;
@@ -76,27 +133,7 @@ function createCombobox(id) {
         }
       }
     }
-
-
   });
-
-
-
-
-
-  //<select name="files" id="files">
-  //    <optgroup label="Scripts">
-  //      <option value="jquery">jQuery.js</option>
-  //      <option value="jqueryui">ui.jQuery.js</option>
-  //    </optgroup>
-  //    <optgroup label="Other files">
-  //      <option value="somefile">Some unknown file</option>
-  //      <option value="someotherfile">Some other file with a very long option text</option>
-  //    </optgroup>
-  //  </select>
-
-
-
 }
 
 function changeEvent(e) {
@@ -180,27 +217,32 @@ function getJsonByView(mode) {
   }
   else if (mode == "distance")//距離
   {
-    temp[0]["size"] = $("#walk")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
-    temp[1]["size"] = $("#bus")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
-    temp[2]["size"] = $("#mrt")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
+    temp[0]["size"] = getDistance("#walk");
+    temp[1]["size"] = getDistance("#bus");
+    temp[2]["size"] = getDistance("#mrt");
+  }
+  else if (mode == "time") {
+    temp[0]["size"] = getSpendTime("#walk");
+    temp[1]["size"] = getSpendTime("#bus");
+    temp[2]["size"] = getSpendTime("#mrt");
+  }
+  return js;
+}
 
+function getDistance(id) {
+  return $(id)[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0] * 1;
+}
+
+function getSpendTime(id) {
+  if (id != "#walk") {
+    var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    return (A[0] - D[0]) * 60 + (A[1] - D[1]);
   }
   else {
-    var bus_D = $("#bus")[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-    var bus_A = $("#bus")[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-
-    var mrt_D = $("#mrt")[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-    var mrt_A = $("#mrt")[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-
-
-    temp[0]["size"] = $("#walk")[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "");
-    temp[1]["size"] = (bus_A[0] - bus_D[0]) * 60 + (bus_A[1] - bus_D[1]);
-    temp[2]["size"] = (mrt_A[0] - mrt_D[0]) * 60 + (mrt_A[1] - mrt_D[1]);
+    var w = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "").split("小時");
+    return w[0] * 60 + w[1] * 1;
   }
-
-
-
-  return js;
 }
 
 function createD3JS(js, type) {
