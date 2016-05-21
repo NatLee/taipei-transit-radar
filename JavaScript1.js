@@ -173,13 +173,13 @@ function callGoogleServer(classTran, type) {
       //
       if (type == "走路") {
         var min = temp["legs"][0]["duration"]["value"] / 60;
-
+        var num = new Number(dis / (min / 60) * 46.5)
 
         $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
           "</br>搭乘車號：" + stepString +
           "</br>花費金額：" + cost +
           "</br>花費時間：" + temp["legs"][0]["duration"]["text"] +
-          "</br>總消耗卡路里：" + dis / (min / 60) * 46.5 + "大卡(以體重60公斤計算)" +
+          "</br>總消耗卡路里：" + num.toFixed(2) + "大卡(以體重60公斤計算)" +
           "</br>距離總長：" + dis + " 公里</br>";
       }
       else {
