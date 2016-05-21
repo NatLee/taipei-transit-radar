@@ -33,7 +33,7 @@
   <!-- Banner -->
   <section id="banner">
     <header>
-      <h2>請輸入《起點》與《終點》</h2>
+      <h2>請選擇《起點》與《終點》</h2>
     </header>
     <p>(限定大台北地區捷運站)</p>
 
@@ -41,7 +41,7 @@
       <table align="center">
         <tr>
           <td class="label">起點：</td>
-          <td style="vertical-align: middle; border-radius: 25px;">
+          <td style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="start" class="submit"></select>
             <!--<input class="submit" id="start" value="捷運萬隆" /></td>-->
         </tr>
@@ -52,7 +52,7 @@
         </tr>
         <tr>
           <td class="label">終點：</td>
-          <td style="vertical-align: middle; border-radius: 25px;">
+          <td style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="end" class="submit"></select>
             <!--<input class="submit" id="end" value="捷運古亭" /></td>-->
         </tr>
@@ -99,14 +99,22 @@
     <img class="image fit" src="images/pic02.jpg" alt="" />
     <div class="inner">
       <header>
-        <h2>Mollis posuere<br />
-          lectus lacus</h2>
+        <h2>走路減碳動ㄘ動</h2>
+        <p>請排序您最為考量的因素</p>
+        <input type="radio" name="location" value="money" onclick="radioChange(this)" />最省錢
+        <input type="radio" name="location" value="time" onclick="radioChange(this)" />最省時
+        <input type="radio" name="location" value="distance" onclick="radioChange(this)" />走最短
       </header>
-      <p>Rhoncus mattis egestas sed fusce sodales rutrum et etiam ullamcorper. Etiam egestas scelerisque ac duis magna lorem ipsum dolor.</p>
     </div>
-    <a class="scrollup" href="#">
+    <div class="image fit" style="background-image: url(images/pic02.jpg); background-size: 100% 100%;">
+      <p id="word" style="position: absolute; color: #E3E616; padding-left: 15%;"></p>
+      <div id="img" style="height: 100%; width: 100%; margin: 0px auto; opacity: 0.3;">
+      </div>
+
+    </div>
+    <!--<a class="scrollup" href="#">
       <div style="width: 100%; height: 100%">Scroll</div>
-    </a>
+    </a>-->
   </article>
 
 
