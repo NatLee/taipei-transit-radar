@@ -50,6 +50,7 @@ body {
   background-image: url(images/icon.png);
   background-size: 100% 100%;
   border: 0;
+  z-index:99999999999;
 }
 
 /*1231231212312312123*/
