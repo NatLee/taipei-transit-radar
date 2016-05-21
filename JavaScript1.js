@@ -243,7 +243,10 @@ function getSpendTime(id) {
   }
   else {
     var w = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "").split("小時");
-    return w[0] * 60 + w[1] * 1;
+    if (w.length > 1)
+      return w[0] * 60 + w[1] * 1;
+    else
+      return w[0] * 1;
   }
 }
 
