@@ -23,8 +23,7 @@ function changeEvent(e) {
 
 function searchEvent(e) {
 
-  //http://ptx.transportdata.tw/MOTC/v1/Bus/EstimatedTimeOfArrival/Taipei?%24top=30&%24format=JSO
-
+  $("#showValue")[0].innerHTML = "";
 
   
   callGoogleServer("BUS");
