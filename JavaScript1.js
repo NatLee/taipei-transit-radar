@@ -92,9 +92,9 @@ function callGoogleServer(classTran, type) {
 
 
 
-      var departure = new Date().toLocaleString().split(' ')[1];
+      var departure = new Date().toLocaleString().replace("GMT+8 ","").split(' ')[1];
        
-      alert(new Date().toLocaleString());
+      alert(new Date().toLocaleString().replace("GMT+8 ", ""));
       departure = getViewDate(departure);
       if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
         departure = temp["legs"][0]["departure_time"]["text"];
