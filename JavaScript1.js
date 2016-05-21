@@ -31,6 +31,7 @@ function init() {
 }
 
 function radioChange(e) {
+  alert(0);
   var imgDiv = document.getElementById("img");
   var word = document.getElementById("word");
   var src = "";
