@@ -22,31 +22,17 @@ function changeEvent(e) {
 
 
 function searchEvent(e) {
-
   $("#showValue")[0].innerHTML = "";
 
-  
-  callGoogleServer("BUS");
-  callGoogleServer("RAIL");
-  
+  callGoogleServer("TRANSIT", "BUS");
+  callGoogleServer("TRANSIT", "RAIL");
+  callGoogleServer("WALKING", "WALK");
 
- 
-
-
-//  _json = [
-//{
-//  "type": "bus",
-//  "cost": temp_bus["fare"]["currency"] + " " + temp_bus["fare"]["text"],
-//  "departure_time": temp_bus["legs"][0]["departure_time"]["text"],
-//  "arrival_time": temp_bus["legs"][0]["arrival_time"]["text"]
-//}
-//  ];
-//  alert(JSON.stringify(_json));
 
 
 }
 
-function callGoogleServer(type) {
+function callGoogleServer(classTran, type) {
   var startValue = $("#start")[0].value;
   var endValue = $("#end")[0].value;
 
@@ -54,29 +40,92 @@ function callGoogleServer(type) {
   var directionsRequest = {
     origin: startValue,
     destination: endValue,
-    travelMode: google.maps.DirectionsTravelMode.TRANSIT,
-    transitOptions: {
-      modes: [google.maps.TransitMode[type]]
-    },
+    travelMode: google.maps.DirectionsTravelMode[classTran],
     optimizeWaypoints: true,
     unitSystem: google.maps.UnitSystem.METRIC
   };
+
+  if (classTran == "TRANSIT") {
+    directionsRequest["transitOptions"] = {
+      modes: [google.maps.TransitMode[type]]
+    };
+  }
 
   var json_bus, json_tram, temp_bus
 
   directionsService.route(directionsRequest, function (response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-      json_bus = response;
-      temp_bus = json_bus["routes"][0];
-      $("#showValue")[0].innerHTML += "</br></br>大眾交通工具：" + (type=="BUS" ? "公車":"捷運") +
-        "</br>花費金額：" + temp_bus["fare"]["currency"] + " " + temp_bus["fare"]["text"] +
-        "</br>出發時間：" + temp_bus["legs"][0]["departure_time"]["text"] +
-        "</br>抵達時間：" + temp_bus["legs"][0]["arrival_time"]["text"];
+      temp = response["routes"][0];
+
+      var dis = 0;
+      for (var i = 0; i < temp["legs"].length; i++) {
+        dis += temp["legs"][i]["distance"]["value"];
+      }
+      dis = dis / 1000;
+
+
+      var steps = temp["legs"][0]["steps"];
+      var stepString = "";
+      for (var i = 0; i < steps.length; i++) {
+        if (steps[i]["transit"] && steps[i]["transit"]["line"]) {
+          if (steps[i]["transit"]["line"]["name"])
+            stepString += steps[i]["transit"]["line"]["name"];
+          if (steps[i]["transit"]["line"]["short_name"])
+            stepString += "(" + steps[i]["transit"]["line"]["short_name"] + ")";
+        }
+      }
+      if (type == "WALK" && stepString == "")
+        stepString = "腳";
+
+
+      if (type == "BUS")
+        type = "公車";
+      else if (type == "RAIL")
+        type = "捷運";
+      else
+        type = "走路";
+
+
+      var cost = "TWD $0";
+      if (temp["fare"] && temp["fare"]["currency"])
+        cost = temp["fare"]["currency"] + " " + temp["fare"]["text"];
+
+
+
+      var departure = new Date().toLocaleString().split(' ')[1];
+      departure = getViewDate(departure);
+      if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
+        departure = temp["legs"][0]["departure_time"]["text"];
+
+      var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString().split(' ')[1];
+      arrived = getViewDate(arrived);
+      if (temp["legs"][0]["arrival_time"] && temp["legs"][0]["arrival_time"]["text"])
+        arrived = temp["legs"][0]["arrival_time"]["text"]
+
+
+      $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
+        "</br>搭乘車號：" + stepString +
+        "</br>花費金額：" + cost +
+        "</br>出發時間：" + departure +
+        "</br>抵達時間：" + arrived +
+        "</br>距離總長：" + dis + " 公里</br>";
     }
     else
       alert("Unable to retrieve your route");
   });
 }
+
+function getViewDate(d) {
+  var ary = d.split(':');
+  return ary[0] + ":" + ary[1];
+}
+
+function addMins(min) {
+  var d = new Date().getTime();
+
+  return new Date(d + min * 1000);
+}
+
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
