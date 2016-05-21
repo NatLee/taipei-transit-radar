@@ -1,0 +1,27 @@
+﻿.title {
+  text-align: center;
+}
+.tableBody {
+  background:pink;
+  width:50%;
+}
+
+
+.button {
+  /*height: 50px;
+  width: 120px;*/
+  background: black;
+  color: #00E700;
+}
+
+  .button:hover {
+    background: #00E700;
+    color: black;
+  }
+
+body {
+}
+
+
+
+/*1231231212312312123*/
