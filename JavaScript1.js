@@ -169,7 +169,7 @@ function callGoogleServer(classTran, type) {
       var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString();
       if (navigator.vendor.indexOf("Apple") > -1) {
         alert(arrived);
-        arrived = arrived.split(' ')[4];
+        arrived = arrived.split(' ')[4]; 
       }
       else
         arrived = arrived[1];
