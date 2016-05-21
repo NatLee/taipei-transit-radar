@@ -28,7 +28,7 @@ function searchEvent(e) {
   callGoogleServer("TRANSIT", "RAIL");
   callGoogleServer("WALKING", "WALK");
 
-  createD3JS();
+  //createD3JS();
 
 }
 
@@ -154,9 +154,10 @@ function callGoogleServer(classTran, type) {
 
 
 
-      var departure = new Date().toLocaleString().split(' ');
+      var departure = new Date().toLocaleString();
       if (navigator.vendor.indexOf("Apple") > -1) {
-        departure = departure[4];
+        departure = departure.split(' ')[4];
+        alert(departure);
       }
       else
         departure = departure[1];
@@ -165,9 +166,10 @@ function callGoogleServer(classTran, type) {
       if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
         departure = temp["legs"][0]["departure_time"]["text"];
 
-      var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString().split(' ');
+      var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString();
       if (navigator.vendor.indexOf("Apple") > -1) {
-        arrived = arrived[4];
+        alert(arrived);
+        arrived = arrived.split(' ')[4];
       }
       else
         arrived = arrived[1];
