@@ -1,4 +1,4 @@
-﻿var _body = document.getElementsByTagName("body")[0];
+var _body = document.getElementsByTagName("body")[0];
 
 function init() {
   $("#change")[0].addEventListener("click", changeEvent);
@@ -24,8 +24,8 @@ function changeEvent(e) {
 function searchEvent(e) {
   $("#showValue")[0].innerHTML = "";
 
-  callGoogleServer("TRANSIT", "BUS");
-  callGoogleServer("TRANSIT", "RAIL");
+  //callGoogleServer("TRANSIT", "BUS");
+  //callGoogleServer("TRANSIT", "RAIL");
   callGoogleServer("WALKING", "WALK");
 
   //createD3JS();
@@ -154,41 +154,38 @@ function callGoogleServer(classTran, type) {
 
 
 
-      var departure = new Date().toLocaleString();
-      if (navigator.vendor.indexOf("Apple") > -1) {
-        departure = departure.split(' ')[4];
-        alert(departure);
-      }
-      else
-        departure = departure[1];
-
+      var departure = new Date().toLocaleString().split(' ')[1];
       departure = getViewDate(departure);
       if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
         departure = temp["legs"][0]["departure_time"]["text"];
 
-      var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString();
-      if (navigator.vendor.indexOf("Apple") > -1) {
-        alert(arrived);
-        arrived = arrived.split(' ')[4]; 
-      }
-      else
-        arrived = arrived[1];
-
-
+      var arrived = addMins(temp["legs"][0]["duration"]["value"]).toLocaleString().split(' ')[1];
+      //if (navigator.vendor.indexOf("Apple") > -1) {
+      //  arrived = arrived[4];
+      //}
+      //else
+      //  arrived = arrived[1];
       arrived = getViewDate(arrived);
       if (temp["legs"][0]["arrival_time"] && temp["legs"][0]["arrival_time"]["text"])
-        arrived = temp["legs"][0]["arrival_time"]["text"]
+        arrived = temp["legs"][0]["arrival_time"]["text"];
 
 
-
-
-
-      $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
-        "</br>搭乘車號：" + stepString +
-        "</br>花費金額：" + cost +
-        "</br>出發時間：" + departure +
-        "</br>抵達時間：" + arrived +
-        "</br>距離總長：" + dis + " 公里</br>";
+      //
+      if (type = "走路") {
+        $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
+          "</br>搭乘車號：" + stepString +
+          "</br>花費金額：" + cost +
+          "</br>花費時間：" + temp["legs"][0]["duration"]["text"] +
+          "</br>距離總長：" + dis + " 公里</br>";
+      }
+      else {
+        $("#showValue")[0].innerHTML += "</br>大眾交通工具：" + type +
+          "</br>搭乘車號：" + stepString +
+          "</br>花費金額：" + cost +
+          "</br>出發時間：" + departure +
+          "</br>抵達時間：" + arrived +
+          "</br>距離總長：" + dis + " 公里</br>";
+      }
     }
     else
       alert("Unable to retrieve your route");
