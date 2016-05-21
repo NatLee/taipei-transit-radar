@@ -31,7 +31,6 @@ function init() {
 }
 
 function radioChange(e) {
-  alert(0);
   var imgDiv = document.getElementById("img");
   var word = document.getElementById("word");
   var src = "";
@@ -238,7 +237,7 @@ function getSpendTime(id) {
   if (id != "#walk") {
     var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
     var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-    return (A[0] - D[0]) * 60 + (A[1] - D[1]);
+    return (A[0] - D[0]) * 60 + (A[1] - D[1]) * 1;
   }
   else {
     var w = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "").split("小時");
