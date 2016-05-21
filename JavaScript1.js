@@ -24,8 +24,8 @@ function changeEvent(e) {
 function searchEvent(e) {
   $("#showValue")[0].innerHTML = "";
 
-  callGoogleServer("TRANSIT", "BUS");
-  callGoogleServer("TRANSIT", "RAIL");
+  //callGoogleServer("TRANSIT", "BUS");
+  //callGoogleServer("TRANSIT", "RAIL");
   callGoogleServer("WALKING", "WALK");
 
 
@@ -93,6 +93,8 @@ function callGoogleServer(classTran, type) {
 
 
       var departure = new Date().toLocaleString().split(' ')[1];
+
+      alert(new Date().toLocaleString());
       departure = getViewDate(departure);
       if (temp["legs"][0]["departure_time"] && temp["legs"][0]["departure_time"]["text"])
         departure = temp["legs"][0]["departure_time"]["text"];
