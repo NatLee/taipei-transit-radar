@@ -179,7 +179,7 @@ function callGoogleServer(classTran, type) {
           "</br>搭乘車號：" + stepString +
           "</br>花費金額：" + cost +
           "</br>花費時間：" + temp["legs"][0]["duration"]["text"] +
-          "</br>總消耗卡路里：" + num.toFixed(2) + "大卡(以體重60公斤計算)" +
+          "</br>消耗卡路里：" + num.toFixed(2) + "大卡(60公斤計)" +
           "</br>距離總長：" + dis + " 公里</br>";
       }
       else {
