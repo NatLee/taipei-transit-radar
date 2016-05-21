@@ -100,8 +100,8 @@ function createCombobox(id) {
 }
 
 function changeEvent(e) {
-  var startValue = $("#start")[0].value;
-  var endValue = $("#end")[0].value;
+  var startValue = "台北"+$("#start")[0].value;
+  var endValue = "台北" + $("#end")[0].value;
 
   $("#start")[0].value = endValue;
   $("#end")[0].value = startValue;
