@@ -108,13 +108,13 @@ function createCombobox(id) {
           break;
         }
       }
+      var axis = optionJson[i]["latitude"] + "," + optionJson[i]["longitude"];
 
       if (!lineHasCreate) {
         var optgroup = document.createElement("optgroup");
         optgroup.setAttribute("label", line);
-
         var option = document.createElement("option");
-        option.setAttribute("value", optionJson[i]["name"]);
+        option.setAttribute("value", axis);
         option.innerHTML = "捷運" + optionJson[i]["name"];
 
         optgroup.appendChild(option);
@@ -126,7 +126,7 @@ function createCombobox(id) {
           if (temp[k].label == line) {
             temp = temp[k];
             var option = document.createElement("option");
-            option.setAttribute("value", optionJson[i]["name"]);
+            option.setAttribute("value", axis);
             option.innerHTML = "捷運" + optionJson[i]["name"];
             temp.appendChild(option);
           }
@@ -308,8 +308,8 @@ function rgbToHex(r, g, b) {
   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 function callGoogleServer(classTran, type) {
-  var startValue = $("#start")[0].value + "站";
-  var endValue = $("#end")[0].value + "站";
+  var startValue = $("#start")[0].value;
+  var endValue = $("#end")[0].value;
 
   var directionsService = new google.maps.DirectionsService();
   var directionsRequest = {
