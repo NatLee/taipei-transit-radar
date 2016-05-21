@@ -24,8 +24,8 @@ function changeEvent(e) {
 function searchEvent(e) {
   $("#showValue")[0].innerHTML = "";
 
-  //callGoogleServer("TRANSIT", "BUS");
-  //callGoogleServer("TRANSIT", "RAIL");
+  callGoogleServer("TRANSIT", "BUS");
+  callGoogleServer("TRANSIT", "RAIL");
   callGoogleServer("WALKING", "WALK");
 
   //createD3JS();
