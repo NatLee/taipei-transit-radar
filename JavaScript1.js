@@ -25,18 +25,100 @@ function searchEvent(e) {
   $("#walk")[0].innerHTML = "";
   $("#bus")[0].innerHTML = "";
   $("#mrt")[0].innerHTML = "";
-
+  callGoogleServer("WALKING", "WALK");
   callGoogleServer("TRANSIT", "BUS");
   callGoogleServer("TRANSIT", "RAIL");
-  callGoogleServer("WALKING", "WALK");
 
-  //createD3JS();
+  setTimeout(function () {
+
+
+    $("#P1")[0].innerHTML = "";
+    $("#label1")[0].innerHTML = "總花費(越大越多)";
+
+    $("#P2")[0].innerHTML = "";
+    $("#label2")[0].innerHTML = "總距離(越大越遠)";
+
+    $("#P3")[0].innerHTML = "";
+    $("#label3")[0].innerHTML = "總耗時(越大越久)";
+    var js;
+    js = getJsonByView("money");
+
+    createD3JS(js, "#P1");
+    js = getJsonByView("distance"); //距離
+    createD3JS(js, "#P2");
+    js = getJsonByView("time");
+    createD3JS(js, "#P3");
+
+  }, 1000);
+
+
+
 
 }
 
-function createD3JS() {
+function getJsonByView(mode) {
+  var js = {
+    "name": "flare",
+    "children": [
+      {
+        "name": "analytics",
+        "children": [
+          {
+            "name": getColor(),
+            "children": [
+              {
+                "name": "走路",
+                "size": 3938
+              },
+              {
+                "name": "公車",
+                "size": 3812
+              },
+              {
+                "name": "捷運",
+                "size": 6714
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
 
-  var diameter = 300,
+  var temp = js["children"][0]["children"][0]["children"];
+  if (mode == "money") {
+    temp[0]["size"] = 1;
+    temp[1]["size"] = $("#bus")[0].innerHTML.split("<br>")[3].split("$")[1];
+    temp[2]["size"] = $("#mrt")[0].innerHTML.split("<br>")[3].split("$")[1];
+  }
+  else if (mode == "distance")//距離
+  {
+    temp[0]["size"] = $("#walk")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
+    temp[1]["size"] = $("#bus")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
+    temp[2]["size"] = $("#mrt")[0].innerHTML.split("<br>")[6].split("：")[1].split(" ")[0];
+
+  }
+  else {
+    var bus_D = $("#bus")[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    var bus_A = $("#bus")[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+
+    var mrt_D = $("#mrt")[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    var mrt_A = $("#mrt")[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+
+
+    temp[0]["size"] = $("#walk")[0].innerHTML.split("<br>")[4].split("：")[1].replace("分", "");
+    temp[1]["size"] = (bus_A[0] - bus_D[0])*60 + (bus_A[1] - bus_D[1]);
+    temp[2]["size"] = (mrt_A[0] - mrt_D[0]) * 60 + (mrt_A[1] - mrt_D[1]);
+  }
+
+
+
+  return js;
+}
+
+function createD3JS(js, type) {
+
+  var diameter = 250,
       format = d3.format(",d"),
       color = d3.scale.category20c();
 
@@ -45,57 +127,55 @@ function createD3JS() {
       .size([diameter, diameter])
       .padding(1.5);
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select(type).append("svg")
       .attr("width", diameter)
       .attr("height", diameter)
       .attr("class", "bubble");
 
+  var node = svg.selectAll(".node")
+      .data(bubble.nodes(classes(js))
+      .filter(function (d) { return !d.children; }))
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
+  node.append("title")
+      .text(function (d) { return d.className + ": " + format(d.value); });
 
-  d3.json("flare.json", function (error, root) {
-    root = js;
+  node.append("circle")
+      .attr("r", function (d) { return d.r; })
+      .style("fill", function (d) {
+        return d.packageName;//color(d.packageName);
+      });
 
-    var node = svg.selectAll(".node")
-        .data(bubble.nodes(classes(root))
-        .filter(function (d) { return !d.children; }))
-      .enter().append("g")
-        .attr("class", "node")
-        .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-    node.append("title")
-        .text(function (d) { return d.className + ": " + format(d.value); });
-
-    node.append("circle")
-        .attr("r", function (d) { return d.r; })
-        .style("fill", function (d) { return color(d.packageName); });
-
-    node.append("text")
-        .attr("dy", ".3em")
-        .style("text-anchor", "middle")
-        .text(function (d) { return d.className.substring(0, d.r / 3); });
-  });
-
+  node.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function (d) { return d.className.substring(0, d.r / 3); });
 
   // Returns a flattened hierarchy containing all leaf nodes under the root.
   function classes(root) {
     var classes = [];
-
     function recurse(name, node) {
       if (node.children) node.children.forEach(function (child) { recurse(node.name, child); });
       else classes.push({ packageName: name, className: node.name, value: node.size });
     }
-
     recurse(null, root);
     return { children: classes };
   }
-
   d3.select(self.frameElement).style("height", diameter + "px");
-
-
-
-
 }
 
+function getColor() {
+  var r = Math.floor(Math.random() * 105)+150;
+  var g = Math.floor(Math.random() * 105)+150;
+  var b = Math.floor(Math.random() * 105)+150;
+  return rgbToHex(r, g, b);
+}
+
+function rgbToHex(r, g, b) {
+  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
 function callGoogleServer(classTran, type) {
   var startValue = $("#start")[0].value;
   var endValue = $("#end")[0].value;
@@ -141,7 +221,6 @@ function callGoogleServer(classTran, type) {
       if (type == "WALK" && stepString == "")
         stepString = "腳";
 
-
       if (type == "BUS")
         type = "公車";
       else if (type == "RAIL")
@@ -149,12 +228,9 @@ function callGoogleServer(classTran, type) {
       else
         type = "走路";
 
-
       var cost = "TWD $0";
       if (temp["fare"] && temp["fare"]["currency"])
         cost = temp["fare"]["currency"] + " " + temp["fare"]["text"];
-
-
 
       var departure = new Date().toLocaleString().split(' ')[1];
       departure = getViewDate(departure);
@@ -214,34 +290,6 @@ function addMins(min) {
 
   return new Date(d + min * 1000);
 }
-
-
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-
-    // Check if the XMLHttpRequest object has a "withCredentials" property.
-    // "withCredentials" only exists on XMLHTTPRequest2 objects.
-    xhr.open(method, url, true);
-
-  } else if (typeof XDomainRequest != "undefined") {
-
-    // Otherwise, check if XDomainRequest.
-    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-
-  } else {
-
-    // Otherwise, CORS is not supported by the browser.
-    xhr = null;
-
-  }
-  return xhr;
-}
-
-
-
 
 
 init();
