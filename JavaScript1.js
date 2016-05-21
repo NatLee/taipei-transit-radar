@@ -3,7 +3,9 @@ var _body = document.getElementsByTagName("body")[0];
 function init() {
   $("#change")[0].addEventListener("click", changeEvent);
   $("#search")[0].addEventListener("click", searchEvent);
-
+  $("html, body").animate({
+    scrollTop: 0
+  }, 300);
 }
 
 function changeEvent(e) {
