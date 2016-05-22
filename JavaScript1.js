@@ -434,32 +434,44 @@ function geoFindMe() {
     return;
   }
 
-
   function success(position) {
-    if (output.style.display == "block") {
-      output.style.display = "none";
-      return
-    }
-    else if (output.style.display == "none") {
-      output.style.display = "block";
-      return;
-    } else {
 
-      var lat = position.coords.latitude;
-      var lon = position.coords.longitude;
+
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+
+    var options = $("option", $("#start")[0]);
+    var sortest = "";
+    var num = 99999999;
+
+    for (var i = 0; i < options.length; i++) {
+      var a = options[i].value.split(',');
+
+      var temp = userToMRTDistance(lat, lon, a[0], a[1])
+      if (temp <= num)
+        sortest = a[0] + "," + a[1];
+    }
+
+    $("#start")[0].value = sortest;
+
+    if (output.style.display == "block")
+      return
+    else {
 
       //output.innerHTML = '<p>Latitude is ' + lat + '° <br>Longitude is ' + lon + '°</p>';
 
       var img = new Image();
       img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=500x300&sensor=false";
 
-      //******上一次的append要消掉
+      img.style.width = "100%";
       output.appendChild(img);
       output.style.display = "block";
-      //******for迴圈算完與所有站的距離找最短設為起點站
       //******算法：以第一個站當初始點，只要算到比第一個站還短的距離就用它當初始點，以此類推，可求出最近的那一點
       //******感恩讚嘆 辛苦ㄌ
-      userToMRTDistance(lat, lon, lat2, lon2)//算距離
+
+
+
+      //userToMRTDistance(lat, lon, lat2, lon2)//算距離
 
     }
   };
@@ -482,9 +494,8 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-  if (d > 1) return Math.round(d) + "km";//公里
-  else if (d <= 1) return Math.round(d * 1000) + "m";//公尺
-  return d;
+
+  return Math.round(d * 1000);//公尺
 }
 
 
