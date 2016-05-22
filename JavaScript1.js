@@ -538,7 +538,7 @@ function geoFindMe() {
   };
 
   function error() {
-    output.innerHTML = "Unable to retrieve your location";
+    output.innerHTML = 'ERROR(' + err.code + '): ' + err.message;//"Unable to retrieve your location";
   };
 
   var options = {
@@ -560,7 +560,6 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
    Math.sin(dLon / 2) * Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c;
-
   return Math.round(d * 1000);//公尺
 }
 
