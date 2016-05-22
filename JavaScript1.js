@@ -541,9 +541,14 @@ function geoFindMe() {
     output.innerHTML = "Unable to retrieve your location";
   };
 
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
   //output.innerHTML = "<p>Locating…</p>";
 
-  navigator.geolocation.getCurrentPosition(success, error);
+  navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
 function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者與目標)距離
