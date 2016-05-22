@@ -97,59 +97,65 @@ function radioChange(e) {
 
 function createBusMap() {
 
-  //
   var word = document.getElementById("word");
   var num = word.innerHTML.split("<br>")[2].split("(")[1].replace(")", "");
   var url = "http://ptx.transportdata.tw/MOTC/v1/Bus/Stop/Taipei/" + num + "?%24top=30&%24format=JSON";
 
   $.getJSON(url, function (json) {
-    var a = document.createElement("a");
-    a.href = 'HtmlPage1.html';
-    a.innerHTML = '搜尋' + word.innerHTML.split("<br>")[2].split("：")[1];
-    word.appendChild(a);
+    var btn = document.createElement("button");
+    btn.innerHTML = '搜尋' + word.innerHTML.split("<br>")[2].split("：")[1];
+    word.appendChild(btn);
+    btn.addEventListener("click", function (e) {
 
-    var neighborhoods = [
-  { lat: 52.511, lng: 13.447 },
-  { lat: 52.549, lng: 13.422 },
-  { lat: 52.497, lng: 13.396 },
-  { lat: 52.517, lng: 13.394 }
-    ];
 
-    var markers = [];
-    var map;
+      var map = document.createElement("div");
+      map.style["width"] = "100%";
+      map.style["height"] = "auto";
+      word.appendChild(map);
 
-    function initMap() {
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: { lat: 52.520, lng: 13.410 }
-      });
-    }
 
-    function drop() {
-      clearMarkers();
-      for (var i = 0; i < neighborhoods.length; i++) {
-        addMarkerWithTimeout(neighborhoods[i], i * 200);
+      var neighborhoods = [
+    { lat: 52.511, lng: 13.447 },
+    { lat: 52.549, lng: 13.422 },
+    { lat: 52.497, lng: 13.396 },
+    { lat: 52.517, lng: 13.394 }
+      ];
+
+      var markers = [];
+      var map;
+      initMap();
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: { lat: 52.520, lng: 13.410 }
+        });
       }
-    }
 
-    function addMarkerWithTimeout(position, timeout) {
-      window.setTimeout(function () {
-        markers.push(new google.maps.Marker({
-          position: position,
-          map: map,
-          animation: google.maps.Animation.DROP
-        }));
-      }, timeout);
-    }
-
-    function clearMarkers() {
-      for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
+      function drop() {
+        clearMarkers();
+        for (var i = 0; i < neighborhoods.length; i++) {
+          addMarkerWithTimeout(neighborhoods[i], i * 200);
+        }
       }
-      markers = [];
-    }
 
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function () {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
 
+      function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        markers = [];
+      }
+
+    });
   });
 }
 
@@ -526,10 +532,6 @@ function geoFindMe() {
       img.style.width = "100%";
       output.appendChild(img);
       output.style.display = "block";
-      //******算法：以第一個站當初始點，只要算到比第一個站還短的距離就用它當初始點，以此類推，可求出最近的那一點
-      //******感恩讚嘆 辛苦ㄌ
-      //userToMRTDistance(lat, lon, lat2, lon2)//算距離
-
     }
   };
 
