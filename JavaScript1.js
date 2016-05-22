@@ -517,8 +517,10 @@ function geoFindMe() {
       var a = options[i].value.split(',');
 
       var temp = userToMRTDistance(lat, lon, a[0], a[1])
-      if (temp <= num)
+      if (temp <= num) {
         sortest = a[0] + "," + a[1];
+        num = temp;
+      }
     }
 
     $("#start")[0].value = sortest;
