@@ -40,6 +40,8 @@ function radioChange(e) {
   var bus = $("#bus")[0].innerHTML;
   var mrt = $("#mrt")[0].innerHTML;
 
+  var createMap = false;
+
   if (walk == "" || bus == "" || mrt == "")
     str = "資料不正確，請查明資料";
   else if (e.value == "money") {
@@ -58,6 +60,7 @@ function radioChange(e) {
     else if (bus_t <= walk_t && bus_t <= mrt_t) {
       str = bus;
       src = "url(images/bus.png)";
+      createMap = true;
     }
     else {
       str = mrt;
@@ -76,6 +79,7 @@ function radioChange(e) {
     else if (bus_d <= walk_d && bus_d <= mrt_d) {
       str = bus;
       src = "url(images/bus.png)";
+      createMap = true;
     }
     else {
       str = mrt;
@@ -87,8 +91,73 @@ function radioChange(e) {
   imgDiv["style"]["backgroundImage"] = src;
   imgDiv["style"]["backgroundSize"] = "100% 100%";
 
+  //if (createMap)
+  //  createBusMap();
 }
 
+function createBusMap() {
+
+  var word = document.getElementById("word");
+  var num = word.innerHTML.split("<br>")[2].split("(")[1].replace(")", "");
+  var url = "http://ptx.transportdata.tw/MOTC/v1/Bus/Stop/Taipei/" + num + "?%24top=30&%24format=JSON";
+
+  $.getJSON(url, function (json) {
+    var btn = document.createElement("button");
+    btn.innerHTML = '搜尋' + word.innerHTML.split("<br>")[2].split("：")[1];
+    word.appendChild(btn);
+    btn.addEventListener("click", function (e) {
+
+
+      var map = document.createElement("div");
+      map.style["width"] = "100%";
+      map.style["height"] = "auto";
+      word.appendChild(map);
+
+
+      var neighborhoods = [
+    { lat: 52.511, lng: 13.447 },
+    { lat: 52.549, lng: 13.422 },
+    { lat: 52.497, lng: 13.396 },
+    { lat: 52.517, lng: 13.394 }
+      ];
+
+      var markers = [];
+      var map;
+      initMap();
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: { lat: 52.520, lng: 13.410 }
+        });
+      }
+
+      function drop() {
+        clearMarkers();
+        for (var i = 0; i < neighborhoods.length; i++) {
+          addMarkerWithTimeout(neighborhoods[i], i * 200);
+        }
+      }
+
+      function addMarkerWithTimeout(position, timeout) {
+        window.setTimeout(function () {
+          markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+          }));
+        }, timeout);
+      }
+
+      function clearMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        markers = [];
+      }
+
+    });
+  });
+}
 
 function createCombobox(id) {
   var optionJson;
@@ -236,8 +305,8 @@ function getDistance(id) {
 
 function getSpendTime(id) {
   if (id != "#walk") {
-    var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-    var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午1:", "13:").replace("下午", "").split(":");
+    var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午1:", "13:").replace("下午", "").split(":");
     return (A[0] - D[0]) * 60 + (A[1] - D[1]) * 1;
   }
   else {
@@ -424,5 +493,74 @@ function addMins(min) {
   return new Date(d + min * 1000);
 }
 
+
+
+function geoFindMe() {
+  var output = document.getElementById("out");
+
+  if (!navigator.geolocation) {
+    output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
+    return;
+  }
+
+  function success(position) {
+
+
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+
+    var options = $("option", $("#start")[0]);
+    var sortest = "";
+    var num = 99999999;
+
+    for (var i = 0; i < options.length; i++) {
+      var a = options[i].value.split(',');
+
+      var temp = userToMRTDistance(lat, lon, a[0], a[1])
+      if (temp <= num) {
+        sortest = a[0] + "," + a[1];
+        num = temp;
+      }
+    }
+
+    $("#start")[0].value = sortest;
+
+    if (output.style.display == "block")
+      return
+    else {
+      var img = new Image();
+      img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=500x300&sensor=false";
+
+      img.style.width = "100%";
+      output.appendChild(img);
+      output.style.display = "block";
+    }
+  };
+
+  function error(err) {
+    output.innerHTML = 'ERROR(' + err.code + '): ' + err.message;//"Unable to retrieve your location";
+  };
+
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
+  //output.innerHTML = "<p>Locating…</p>";
+
+  navigator.geolocation.getCurrentPosition(success, error, options);
+}
+
+function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者與目標)距離
+  var R = 6371; // km (change this constant to get miles)
+  var dLat = (lat2 - lat1) * Math.PI / 180;
+  var dLon = (lon2 - lon1) * Math.PI / 180;
+  var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+   Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+   Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c;
+  return Math.round(d * 1000);//公尺
+}
 
 init();
