@@ -39,25 +39,27 @@
 
     <div style="width: 50%; margin: 0 auto;">
       <p id="showMe">
-        <button onclick="geoFindMe()" class="button style2 scrolly">自動偵測目前位置(超級準)</button></p>
+        <button onclick="geoFindMe()" class="button style2 scrolly">自動偵測目前位置(超級準)</button>
+      </p>
       <div id="out"></div>
       <table align="center">
         <tr>
-          <td class="label">起點：</td>
-          <td style="vertical-align: middle; border-radius: 25px; background: transparent;">
+          <td colspan="1" class="label">起點：</td>
+          <td colspan="3" style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="start" class="submit"></select>
-            <!--<input class="submit" id="start" value="捷運萬隆" /></td>-->
+          </td>
         </tr>
         <tr>
-          <td></td>
-          <td>
-            <input class="submit" id="change" type="button" style="height: 30px; line-height: 50%;" value="⇅" /></td>
+          <td colspan="1"></td>
+          <td colspan="3">
+            <input class="submit" id="change" type="button" style="height: 30px; line-height: 50%;" value="⇅" />
+          </td>
         </tr>
         <tr>
-          <td class="label">終點：</td>
-          <td style="vertical-align: middle; border-radius: 25px; background: transparent;">
+          <td colspan="1" class="label">終點：</td>
+          <td colspan="3" style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="end" class="submit"></select>
-            <!--<input class="submit" id="end" value="捷運古亭" /></td>-->
+          </td>
         </tr>
       </table>
     </div>
