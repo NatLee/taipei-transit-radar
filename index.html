@@ -8,9 +8,9 @@
   <script src="https://maps.googleapis.com/maps/api/js?sensor=false&language=zh-TW"></script>
   <script src="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="StyleSheet1.css" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="icon" href="images/icon.png" />
-  <link href="StyleSheet1.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -48,11 +48,14 @@
           <td colspan="3" style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="start" class="submit"></select>
           </td>
+          <td colspan="1">
+            <button onclick="choiceStation()">點圖選站(測試中)</button>
+          </td>
         </tr>
         <tr>
           <td colspan="1"></td>
           <td colspan="3">
-            <input class="submit" id="change" type="button" style="height: 30px; line-height: 50%;" value="⇅" />
+            <input class="submit changeButton" id="change" type="button" value="⇅" />
           </td>
         </tr>
         <tr>
@@ -65,7 +68,7 @@
     </div>
 
     <footer>
-      <a id="search" href="#first" class="button style2 scrolly">幫我搜尋</a>
+      <a id="search" href="#first" class="button style2 scrolly">幫我比一比</a>
     </footer>
   </section>
 
