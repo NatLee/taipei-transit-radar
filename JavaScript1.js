@@ -305,8 +305,8 @@ function getDistance(id) {
 
 function getSpendTime(id) {
   if (id != "#walk") {
-    var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午", "").split(":");
-    var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午", "").split(":");
+    var D = $(id)[0].innerHTML.split("<br>")[4].split("：")[1].replace("上午", "").replace("下午1:", "13:").replace("下午", "").split(":");
+    var A = $(id)[0].innerHTML.split("<br>")[5].split("：")[1].replace("上午", "").replace("下午1:", "13:").replace("下午", "").split(":");
     return (A[0] - D[0]) * 60 + (A[1] - D[1]) * 1;
   }
   else {
@@ -562,8 +562,5 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
   var d = R * c;
   return Math.round(d * 1000);//公尺
 }
-
-
-
 
 init();
