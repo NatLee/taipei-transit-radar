@@ -24,6 +24,14 @@
   text-align: center;
 }
 
+.changeButton {
+  width: 50% !important; 
+  vertical-align: middle !important;
+  padding: 0 !important;
+  float: none !important;
+  margin-bottom: 3px !important;
+}
+
 .button {
   /*height: 50px;
   width: 120px;*/
@@ -50,7 +58,7 @@ body {
   background-image: url(images/icon.png);
   background-size: 100% 100%;
   border: 0;
-  z-index:99999999999;
+  z-index: 99999999999;
 }
 
 /*1231231212312312123*/

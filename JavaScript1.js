@@ -563,4 +563,11 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
   return Math.round(d * 1000);//公尺
 }
 
+function choiceStation() {
+  window.open("/index2.html");
+
+
+}
+
+
 init();
