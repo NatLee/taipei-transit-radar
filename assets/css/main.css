@@ -1689,7 +1689,8 @@ button,
   position: relative;
   display: inline-block;
   border: 0;
-  background: #35b88f;
+  /*background: #35b88f;*/
+  background: teal;
   color: #fff;
   text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.25);
   cursor: pointer;
