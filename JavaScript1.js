@@ -537,7 +537,7 @@ function geoFindMe() {
     }
   };
 
-  function error() {
+  function error(err) {
     output.innerHTML = 'ERROR(' + err.code + '): ' + err.message;//"Unable to retrieve your location";
   };
 
