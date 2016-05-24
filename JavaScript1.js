@@ -3,7 +3,7 @@ var _body = document.getElementsByTagName("body")[0];
 function init() {
 
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { //是手機的話
-    $("#element")[0].style["width"] = "50%";
+    $("#element")[0].style["width"] = "100%";
   }
 
   $("#change")[0].addEventListener("click", changeEvent);
