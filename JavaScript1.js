@@ -517,9 +517,6 @@ function geoFindMe() {
     browserSupportFlag = true;
     navigator.geolocation.getCurrentPosition(function (position) {
       initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-      map.setCenter(initialLocation);
-    }, function () {
-      handleNoGeolocation(browserSupportFlag);
       var lat = position.coords.latitude;
       var lon = position.coords.longitude;
 
@@ -538,7 +535,9 @@ function geoFindMe() {
       }
 
       $("#start")[0].value = sortest;
-
+      map.setCenter(initialLocation);
+    }, function (p) {
+      handleNoGeolocation(browserSupportFlag);
     });
   }
     // Browser doesn't support Geolocation
