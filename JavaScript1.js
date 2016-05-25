@@ -2,9 +2,9 @@ var _body = document.getElementsByTagName("body")[0];
 
 function init() {
 
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) { //是手機的話
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))  //是手機的話
     $("#element")[0].style["width"] = "100%";
-  }
+
 
   $("#change")[0].addEventListener("click", changeEvent);
   $("#search")[0].addEventListener("click", searchEvent);
@@ -33,6 +33,7 @@ function init() {
     });
 
   });
+  geoFindMe();
 }
 
 function radioChange(e) {
@@ -498,62 +499,119 @@ function addMins(min) {
   return new Date(d + min * 1000);
 }
 
-
+var initialLocation;
+var taipei = new google.maps.LatLng(25.09108, 121.5598);
+var browserSupportFlag = new Boolean();
 
 function geoFindMe() {
-  var output = document.getElementById("out");
 
-  if (!navigator.geolocation) {
-    output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-    return;
+
+  var myOptions = {
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+  // Try W3C Geolocation (Preferred)
+  if (navigator.geolocation) {
+    browserSupportFlag = true;
+    navigator.geolocation.getCurrentPosition(function (position) {
+      initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      map.setCenter(initialLocation);
+    }, function () {
+      handleNoGeolocation(browserSupportFlag);
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+      var options = $("option", $("#start")[0]);
+      var sortest = "";
+      var num = 99999999;
+
+      for (var i = 0; i < options.length; i++) {
+        var a = options[i].value.split(',');
+
+        var temp = userToMRTDistance(lat, lon, a[0], a[1])
+        if (temp <= num) {
+          sortest = a[0] + "," + a[1];
+          num = temp;
+        }
+      }
+
+      $("#start")[0].value = sortest;
+
+    });
+  }
+    // Browser doesn't support Geolocation
+  else {
+    browserSupportFlag = false;
+    handleNoGeolocation(browserSupportFlag);
   }
 
-  function success(position) {
+  function handleNoGeolocation(errorFlag) {
+    if (errorFlag == true)
+      alert("地圖定位失敗");
+    else
+      alert("您的瀏覽器不支援定位服務");
+
+    initialLocation = taipei;
+    map.setCenter(initialLocation);
+  }
 
 
-    var lat = position.coords.latitude;
-    var lon = position.coords.longitude;
 
-    var options = $("option", $("#start")[0]);
-    var sortest = "";
-    var num = 99999999;
 
-    for (var i = 0; i < options.length; i++) {
-      var a = options[i].value.split(',');
+  //var output = document.getElementById("out");
 
-      var temp = userToMRTDistance(lat, lon, a[0], a[1])
-      if (temp <= num) {
-        sortest = a[0] + "," + a[1];
-        num = temp;
-      }
-    }
+  //if (!navigator.geolocation) {
+  //  output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
+  //  return;
+  //}
 
-    $("#start")[0].value = sortest;
+  //function success(position) {
 
-    if (output.style.display == "block")
-      return
-    else {
-      var img = new Image();
-      img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=500x300&sensor=false";
+  //  var lat = position.coords.latitude;
+  //  var lon = position.coords.longitude;
 
-      img.style.width = "100%";
-      output.appendChild(img);
-      output.style.display = "block";
-    }
-  };
+  //  var options = $("option", $("#start")[0]);
+  //  var sortest = "";
+  //  var num = 99999999;
 
-  function error(err) {
-    output.innerHTML = 'ERROR(' + err.code + '): ' + err.message;//"Unable to retrieve your location";
-  };
+  //  for (var i = 0; i < options.length; i++) {
+  //    var a = options[i].value.split(',');
 
-  var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-  };
-  //output.innerHTML = "<p>Locating…</p>";
+  //    var temp = userToMRTDistance(lat, lon, a[0], a[1])
+  //    if (temp <= num) {
+  //      sortest = a[0] + "," + a[1];
+  //      num = temp;
+  //    }
+  //  }
 
-  navigator.geolocation.getCurrentPosition(success, error, options);
+  //  $("#start")[0].value = sortest;
+
+  //  if (output.style.display == "block")
+  //    return
+  //  else {
+  //    var img = new Image();
+  //    img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=500x300&sensor=false";
+
+  //    img.style.width = "100%";
+  //    output.appendChild(img);
+  //    output.style.display = "block";
+  //  }
+  //};
+
+  //function error(err) {
+  //  output.innerHTML = 'ERROR(' + err.code + '): ' + err.message;//"Unable to retrieve your location";
+  //};
+
+  //var options = {
+  //  enableHighAccuracy: true,
+  //  timeout: 5000,
+  //  maximumAge: 0
+  //};
+  ////output.innerHTML = "<p>Locating…</p>";
+
+  //navigator.geolocation.getCurrentPosition(success, error, options);
 }
 
 function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者與目標)距離
@@ -569,7 +627,7 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
 }
 
 function choiceStation() {
-  window.open("/2016IISI-HACKATHON/index2.html");
+  window.open("2016IISI-HACKATHON/index2.html");
 
 
 }
