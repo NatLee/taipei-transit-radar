@@ -626,7 +626,7 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
 }
 
 function choiceStation() {
-  window.open("2016IISI-HACKATHON/index2.html");
+  window.open("/2016IISI-HACKATHON/index2.html");
 
 
 }
