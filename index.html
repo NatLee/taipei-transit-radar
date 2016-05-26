@@ -39,9 +39,8 @@
 
     <div id="element" style="width: 50%; margin: 0 auto;">
       <p id="showMe">
-        <button onclick="geoFindMe()" class="button style2 scrolly">自動偵測目前位置(超級準)</button>
       </p>
-      <div id="map_canvas" style="width:100%; height:300px"></div>
+      <div id="map_canvas" style="width: 100%; height: 300px"></div>
       <table align="center">
         <tr>
           <td colspan="1" class="label">起點：</td>
@@ -49,7 +48,8 @@
             <select id="start" class="submit"></select>
           </td>
           <td colspan="1">
-            <button onclick="choiceStation()">點圖選站(測試中)</button>
+            <button onclick="geoFindMe()" class="button style2 scrolly">自動偵測目前位置</button>
+
           </td>
         </tr>
         <tr>
@@ -62,6 +62,9 @@
           <td colspan="1" class="label">終點：</td>
           <td colspan="3" style="vertical-align: middle; border-radius: 25px; background: transparent;">
             <select id="end" class="submit"></select>
+          </td>
+          <td colspan="1">
+            <button onclick="choiceStation()">點圖選站(測試中)</button>
           </td>
         </tr>
       </table>
