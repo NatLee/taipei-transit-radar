@@ -1,4 +1,4 @@
-﻿var _body = document.getElementsByTagName("body")[0];
+var _body = document.getElementsByTagName("body")[0];
 
 function init() {
   createStationElements();
@@ -6,7 +6,7 @@ function init() {
 }
 
 function createStationElements() {
-  $.getJSON("https://raw.githubusercontent.com/NatLee/2016IISI-HACKATHON/gh-pages/assets/MRTstationJson.json?token=AJtRlNYyG5h5y1dz_E3E2QxSm-nAlzZaks5XSegAwA%3D%3D", function (json) {
+  $.getJSON("https://raw.githubusercontent.com/NatLee/2016IISI-HACKATHON/gh-pages/assets/MRTstationJson.json?token=ASmQ94nvo1HJRwz3kRnda2AnZURZJsXGks5XU7yzwA%3D%3D", function (json) {
     for (var i = 0; i < json.length; i++) {
       if (!json[i]["top"])
         continue;
