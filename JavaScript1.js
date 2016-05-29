@@ -167,7 +167,7 @@ function createBusMap() {
 
 function createCombobox(id) {
   var optionJson;
-  $.getJSON("https://raw.githubusercontent.com/NatLee/2016IISI-HACKATHON/gh-pages/assets/MRTstationJson.json?token=AJtRlNYyG5h5y1dz_E3E2QxSm-nAlzZaks5XSegAwA%3D%3D", function (json) {
+  $.getJSON("https://raw.githubusercontent.com/NatLee/2016IISI-HACKATHON/gh-pages/assets/MRTstationJson.json?token=ASmQ94nvo1HJRwz3kRnda2AnZURZJsXGks5XU7yzwA%3D%3D", function (json) {
     optionJson = json;
     var select = $(id)[0];
 
@@ -626,8 +626,7 @@ function userToMRTDistance(lat1, lon1, lat2, lon2) {//計算兩位置(使用者�
 }
 
 function choiceStation() {
-  var win2 = window.open("/2016IISI-HACKATHON/index2.html");//
-
+  var win2 = window.open("/index2.html");///2016IISI-HACKATHON
 
 }
 
