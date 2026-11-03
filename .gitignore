@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+*.local
+.vite/
+# Built at deploy time from the Taipei e-bus feed (npm run data:bus); see README.
+public/data/bus.json
