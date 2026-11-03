@@ -1,0 +1,132 @@
+<!doctype html>
+<!--
+  Source of docs/images/cover.png (1280×640, the GitHub social-preview size).
+  The map is the real app (cover-map.jpg: 1280×640, panel hidden). Re-render with headless Edge:
+  msedge --headless=new --hide-scrollbars --window-size=1280,640 --screenshot=cover.png file:///…/docs/images/cover.html
+-->
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1280px;
+        height: 640px;
+        overflow: hidden;
+        background: #04060b;
+      }
+      .map {
+        position: absolute;
+        inset: 0;
+        background: url('cover-map.jpg') 0 0 / 1280px 640px no-repeat;
+        filter: saturate(1.2) contrast(1.05);
+      }
+      .fade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgb(4 6 11 / 0.97) 0 360px, rgb(4 6 11 / 0.8) 500px, rgb(4 6 11 / 0.1) 640px, transparent),
+          radial-gradient(ellipse at 75% 50%, transparent 40%, rgb(4 6 11 / 0.75) 100%);
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(rgb(46 242 255 / 0.06) 1px, transparent 1px) 0 0 / 40px 40px,
+          linear-gradient(90deg, rgb(46 242 255 / 0.06) 1px, transparent 1px) 0 0 / 40px 40px;
+      }
+      .scan {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+      }
+      .text {
+        position: absolute;
+        left: 64px;
+        top: 92px;
+        width: 620px;
+        color: #d8f4ff;
+        font-family: 'Cascadia Mono', 'JetBrains Mono', Consolas, monospace;
+      }
+      .kicker {
+        color: #ff4fdc;
+        letter-spacing: 0.32em;
+        font-size: 20px;
+      }
+      h1 {
+        margin: 18px 0 0;
+        font-size: 74px;
+        line-height: 0.98;
+        letter-spacing: 0.04em;
+        color: #2ef2ff;
+        text-shadow:
+          0 0 12px rgb(46 242 255 / 0.7),
+          0 0 40px rgb(46 242 255 / 0.35);
+      }
+      .zh {
+        margin-top: 22px;
+        font: 600 40px 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+        letter-spacing: 0.08em;
+      }
+      .chips {
+        margin-top: 34px;
+        display: flex;
+        gap: 12px;
+      }
+      .chips span {
+        border: 1px solid currentColor;
+        padding: 6px 12px;
+        font-size: 18px;
+        letter-spacing: 0.12em;
+      }
+      .foot {
+        position: absolute;
+        left: 64px;
+        bottom: 46px;
+        font: 22px 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+        color: #8fb0c2;
+      }
+      .foot b {
+        color: #d8f4ff;
+        font-weight: 600;
+      }
+      .credit {
+        position: absolute;
+        right: 60px;
+        bottom: 34px;
+        font: 12px 'Segoe UI', sans-serif;
+        color: rgb(216 244 255 / 0.55);
+      }
+      .corner {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border: 2px solid #2ef2ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="map"></div>
+    <div class="fade"></div>
+    <div class="grid"></div>
+    <div class="scan"></div>
+    <div class="corner" style="left: 24px; top: 24px; border-right: 0; border-bottom: 0"></div>
+    <div class="corner" style="right: 24px; top: 24px; border-left: 0; border-bottom: 0"></div>
+    <div class="corner" style="left: 24px; bottom: 24px; border-right: 0; border-top: 0"></div>
+    <div class="corner" style="right: 24px; bottom: 24px; border-left: 0; border-top: 0"></div>
+    <div class="text">
+      <div class="kicker">◉ LIVE TRANSFER FINDER</div>
+      <h1>TAIPEI<br />TRANSIT<br />RADAR</h1>
+      <div class="zh">大台北即時轉乘雷達</div>
+      <div class="chips">
+        <span style="color: #e3002c">MRT</span>
+        <span style="color: #ff4fdc">BUS</span>
+        <span style="color: #b8ff3c">YOUBIKE</span>
+        <span style="color: #2ef2ff">LIVE ETA</span>
+      </div>
+    </div>
+    <div class="credit">Map: OpenFreeMap © OpenMapTiles · Data © OpenStreetMap contributors</div>
+    <div class="foot"><b>2016 資拓宏宇 IISI 黑客松</b> 作品 · 2026 重寫</div>
+  </body>
+</html>
