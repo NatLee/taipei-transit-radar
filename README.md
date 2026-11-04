@@ -3,7 +3,7 @@
 ![Taipei Transit Radar：暗色霓虹地圖上的捷運路線和一段公車轉捷運的路線](docs/images/cover.png)
 
 > 2016 年[資拓宏宇（IISI）黑客松](docs/2016-hackathon.md)第三隊的作品「最即時的大眾運輸比較系統」，2026 年用 React、Tailwind 和政府開放資料整個重寫。
-> 感謝當年的隊友 [@impaulapple](https://github.com/impaulapple)：原始 repo 135 個 commit 中有 125 個是他寫的。
+> 感謝當年的隊友：[@impaulapple](https://github.com/impaulapple) 寫了原始 repo 135 個 commit 中的 125 個，昱成設計了 logo 和簡報。
 
 [![CI](https://github.com/NatLee/taipei-transit-radar/actions/workflows/ci.yml/badge.svg)](https://github.com/NatLee/taipei-transit-radar/actions/workflows/ci.yml)
 [![Deploy](https://github.com/NatLee/taipei-transit-radar/actions/workflows/deploy.yml/badge.svg)](https://github.com/NatLee/taipei-transit-radar/actions/workflows/deploy.yml)
@@ -123,7 +123,7 @@ docs/                  2016 年黑客松簡報內容、截圖、封面
 
 當年用 jQuery、HTML5 UP 模板、Google Maps 和 D3.js 做成，用 Google Directions 比較步行、公車、捷運三種走法。簡報內容、當年的手機畫面，以及每個舊功能在新版的對應，都在 [`docs/2016-hackathon.md`](docs/2016-hackathon.md)。
 
-感謝 2016 年第三隊的全體隊友。GitHub 上的貢獻者：[@impaulapple](https://github.com/impaulapple) 寫了當年大部分的程式，[@NatLee](https://github.com/NatLee) 在 2026 年重寫。
+感謝 2016 年第三隊的全體隊友。[@impaulapple](https://github.com/impaulapple) 寫了當年大部分的程式，昱成負責 logo 與簡報設計，[@NatLee](https://github.com/NatLee) 在 2026 年重寫。
 
 ## 授權
 
@@ -133,4 +133,4 @@ docs/                  2016 年黑客松簡報內容、截圖、封面
 
 ## English summary
 
-Taipei Transit Radar is a map-first transfer finder for Greater Taipei. Pick an origin and a destination and it compares walking, bus, MRT, MRT + bus and YouBike side by side: legs, waiting time, arrival time, distance, fare and calories, sorted by fastest, cheapest or shortest. Bus waits use live arrival data and YouBike uses live dock status. It is a static React + Tailwind + MapLibre site on GitHub Pages that needs no API keys: the MRT network comes from OpenStreetMap and data.taipei (built offline and committed), the bus network from the Taipei e-bus feed (built at deploy time), and live feeds are read directly by the browser. It started as team 3's entry to the 2016 IISI (資拓宏宇) hackathon and was rewritten in 2026; thanks to teammate [@impaulapple](https://github.com/impaulapple), who wrote most of the original code. Code is Apache-2.0; `public/data/metro.json` contains OpenStreetMap data under the ODbL.
+Taipei Transit Radar is a map-first transfer finder for Greater Taipei. Pick an origin and a destination and it compares walking, bus, MRT, MRT + bus and YouBike side by side: legs, waiting time, arrival time, distance, fare and calories, sorted by fastest, cheapest or shortest. Bus waits use live arrival data and YouBike uses live dock status. It is a static React + Tailwind + MapLibre site on GitHub Pages that needs no API keys: the MRT network comes from OpenStreetMap and data.taipei (built offline and committed), the bus network from the Taipei e-bus feed (built at deploy time), and live feeds are read directly by the browser. It started as team 3's entry to the 2016 IISI (資拓宏宇) hackathon and was rewritten in 2026; thanks to teammates [@impaulapple](https://github.com/impaulapple), who wrote most of the original code, and 昱成 (Yucheng), who designed the logo and the slides. Code is Apache-2.0; `public/data/metro.json` contains OpenStreetMap data under the ODbL.

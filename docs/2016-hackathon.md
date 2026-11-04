@@ -2,9 +2,9 @@
 
 > 這份文件整理自 2016 年參賽時的簡報《大台北LOVE.pptx》。原本的簡報檔（4.4 MB）在 2026 年重寫時從 repo 移除，內容和圖片保留在這裡；想看原檔可以從 git 歷史取回（commit `e641db7`）。
 
-![2016 年的 logo](2016/logo.png)
+![2016 年的 logo，昱成設計](2016/logo.png)
 
-**第三隊**：GitHub 上的成員是 [@impaulapple](https://github.com/impaulapple)（寫了大部分的程式）和 [@NatLee](https://github.com/NatLee)。
+**第三隊**：[@impaulapple](https://github.com/impaulapple)（寫了大部分的程式）、昱成（logo 與簡報設計）、[@NatLee](https://github.com/NatLee)，以及其他隊友。
 
 > 今天解決不了的事 別急 明天也解決不了
 > 你媽知道你在這邊參加超狂的黑客松嗎

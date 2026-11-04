@@ -14,11 +14,15 @@ export default function About({ metro, bus }: { metro: MetroData | null; bus: Bu
       <p>
         感謝 2016 年第三隊的全體隊友。
         {PROJECT.credits.map((c) => (
-          <span key={c.login}>
+          <span key={c.github ?? c.name}>
             {' '}
-            <a className="text-cyan underline" href={`https://github.com/${c.login}`} target="_blank" rel="noreferrer">
-              @{c.login}
-            </a>
+            {c.github ? (
+              <a className="text-cyan underline" href={`https://github.com/${c.github}`} target="_blank" rel="noreferrer">
+                @{c.github}
+              </a>
+            ) : (
+              <span className="text-ink">{c.name}</span>
+            )}
             ：{c.role}。
           </span>
         ))}{' '}
