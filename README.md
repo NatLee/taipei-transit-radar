@@ -123,7 +123,7 @@ docs/                  2016 年黑客松簡報內容、截圖、封面
 
 當年用 jQuery、HTML5 UP 模板、Google Maps 和 D3.js 做成，用 Google Directions 比較步行、公車、捷運三種走法。簡報內容、當年的手機畫面，以及每個舊功能在新版的對應，都在 [`docs/2016-hackathon.md`](docs/2016-hackathon.md)。
 
-團隊：李映澤、楊昌憲、王昱程。
+感謝 2016 年第三隊的全體隊友。GitHub 上的貢獻者：[@impaulapple](https://github.com/impaulapple) 寫了當年大部分的程式，[@NatLee](https://github.com/NatLee) 在 2026 年重寫。
 
 ## 授權
 
