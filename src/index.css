@@ -1,0 +1,215 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-void: #04060b;
+  --color-deep: #070c16;
+  --color-panel: #0a1120;
+  --color-edge: #17324b;
+  --color-ink: #d8f4ff;
+  --color-dim: #8fb0c2;
+  --color-cyan: #2ef2ff;
+  --color-magenta: #ff4fdc;
+  --color-lime: #b8ff3c;
+  --color-amber: #ffb84d;
+  --font-mono:
+    'JetBrains Mono', 'Cascadia Mono', 'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    'Noto Sans Mono CJK TC', monospace;
+  --font-sans:
+    'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', 'Heiti TC', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: rgb(46 242 255 / 0.35);
+  }
+}
+
+@utility glow-text {
+  text-shadow:
+    0 0 6px rgb(46 242 255 / 0.55),
+    0 0 18px rgb(46 242 255 / 0.25);
+}
+
+@utility glow-box {
+  box-shadow:
+    0 0 0 1px rgb(46 242 255 / 0.35),
+    0 0 18px rgb(46 242 255 / 0.18),
+    inset 0 0 18px rgb(46 242 255 / 0.06);
+}
+
+/* Glass panel with a faint grid, the HUD look. */
+@utility hud-panel {
+  background:
+    linear-gradient(rgb(46 242 255 / 0.035) 1px, transparent 1px) 0 0 / 100% 22px,
+    linear-gradient(180deg, rgb(10 17 32 / 0.92), rgb(5 9 18 / 0.94));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(46 242 255 / 0.18);
+}
+
+/* Corner brackets drawn with gradients, so no extra elements are needed. */
+@utility hud-corners {
+  background-image:
+    linear-gradient(var(--color-cyan), var(--color-cyan)), linear-gradient(var(--color-cyan), var(--color-cyan)),
+    linear-gradient(var(--color-cyan), var(--color-cyan)), linear-gradient(var(--color-cyan), var(--color-cyan)),
+    linear-gradient(var(--color-cyan), var(--color-cyan)), linear-gradient(var(--color-cyan), var(--color-cyan)),
+    linear-gradient(var(--color-cyan), var(--color-cyan)), linear-gradient(var(--color-cyan), var(--color-cyan));
+  background-repeat: no-repeat;
+  background-size:
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px;
+  background-position:
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    0 100%,
+    0 100%,
+    100% 100%,
+    100% 100%;
+}
+
+/* Scanlines over the whole page; pointer-events off so it never blocks the map. */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgb(0 0 0 / 0.16) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+  z-index: 50;
+}
+
+/* Origin marker: a radar with a rotating sweep. */
+.radar {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, rgb(46 242 255 / 0.95) 0 5px, transparent 6px),
+    repeating-radial-gradient(circle, transparent 0 21px, rgb(46 242 255 / 0.28) 21px 22px);
+}
+.radar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgb(46 242 255 / 0.55), rgb(46 242 255 / 0) 70deg, transparent 360deg);
+  animation: radar-sweep 3.2s linear infinite;
+}
+.radar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgb(46 242 255 / 0.55);
+  animation: radar-ping 2.4s ease-out infinite;
+}
+
+.target {
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--color-magenta);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgb(255 79 220 / 0.7);
+  pointer-events: none;
+  background: radial-gradient(circle, var(--color-magenta) 0 4px, transparent 5px);
+  animation: target-pulse 1.6s ease-in-out infinite;
+}
+
+.crosshair {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--color-amber), var(--color-amber)) center / 1px 100% no-repeat,
+    linear-gradient(var(--color-amber), var(--color-amber)) center / 100% 1px no-repeat;
+  border-radius: 50%;
+  outline: 1px solid rgb(255 184 77 / 0.6);
+  outline-offset: 4px;
+}
+
+.blink {
+  animation: blink 1.4s steps(2, start) infinite;
+}
+
+@keyframes radar-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes radar-ping {
+  from {
+    transform: scale(0.2);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+@keyframes target-pulse {
+  50% {
+    box-shadow: 0 0 26px rgb(255 79 220 / 0.95);
+  }
+}
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* MapLibre controls in the HUD palette. */
+.maplibregl-ctrl-group {
+  background: rgb(7 12 22 / 0.9) !important;
+  border: 1px solid rgb(46 242 255 / 0.3);
+}
+.maplibregl-ctrl-group button + button {
+  border-top-color: rgb(46 242 255 / 0.2) !important;
+}
+.maplibregl-ctrl-icon {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2);
+}
+.maplibregl-ctrl-attrib {
+  background: rgb(4 6 11 / 0.75) !important;
+  color: var(--color-dim) !important;
+  font-size: 10px;
+}
+.maplibregl-ctrl-attrib a {
+  color: var(--color-dim) !important;
+}
+.maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+}
