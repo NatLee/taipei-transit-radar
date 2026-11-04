@@ -5,8 +5,14 @@ export const PROJECT = {
   repoUrl: 'https://github.com/NatLee/taipei-transit-radar',
   /** The 2016 team deck, kept as Markdown in the repo. */
   deckPath: 'blob/main/docs/2016-hackathon.md',
-  /** GitHub account of the 2016 teammate who wrote most of the original code. */
-  teammate: 'impaulapple',
+  /**
+   * People credited for the project. The 2016 team is credited as a team; individuals appear
+   * only by GitHub account, never by real name (owner's decision).
+   */
+  credits: [
+    { login: 'impaulapple', role: '寫了 2016 年大部分的程式' },
+    { login: 'NatLee', role: '2026 年重寫' },
+  ],
 } as const;
 
 /** Open data feeds. All of them are free, need no key and allow cross-origin reads. */

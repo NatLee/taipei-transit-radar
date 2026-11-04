@@ -12,11 +12,19 @@ export default function About({ metro, bus }: { metro: MetroData | null; bus: Bu
         <span className="text-dim">「今天解決不了的事 別急 明天也解決不了」</span>
       </blockquote>
       <p>
-        2016 年團隊：李映澤、楊昌憲、王昱程。原始程式大多由{' '}
-        <a className="text-cyan underline" href={`https://github.com/${PROJECT.teammate}`} target="_blank" rel="noreferrer">
-          @{PROJECT.teammate}
-        </a>{' '}
-        寫成。<a className="text-cyan underline" href={`${PROJECT.repoUrl}/${PROJECT.deckPath}`} target="_blank" rel="noreferrer">2016 年的簡報內容</a>
+        感謝 2016 年第三隊的全體隊友。
+        {PROJECT.credits.map((c) => (
+          <span key={c.login}>
+            {' '}
+            <a className="text-cyan underline" href={`https://github.com/${c.login}`} target="_blank" rel="noreferrer">
+              @{c.login}
+            </a>
+            ：{c.role}。
+          </span>
+        ))}{' '}
+        <a className="text-cyan underline" href={`${PROJECT.repoUrl}/${PROJECT.deckPath}`} target="_blank" rel="noreferrer">
+          2016 年的簡報內容
+        </a>
       </p>
       <p>
         資料：捷運路網 {day(metro?.generatedAt)}，公車路線 {day(bus?.generatedAt)}。時間是估計值：捷運用官方班距，公車優先用即時到站；票價為單程全票，不含轉乘優惠和月票。

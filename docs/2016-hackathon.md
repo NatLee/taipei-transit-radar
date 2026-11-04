@@ -4,7 +4,7 @@
 
 ![2016 年的 logo](2016/logo.png)
 
-**第三隊**：楊昌憲、王昱程、李映澤
+**第三隊**：GitHub 上的成員是 [@impaulapple](https://github.com/impaulapple)（寫了大部分的程式）和 [@NatLee](https://github.com/NatLee)。
 
 > 今天解決不了的事 別急 明天也解決不了
 > 你媽知道你在這邊參加超狂的黑客松嗎
